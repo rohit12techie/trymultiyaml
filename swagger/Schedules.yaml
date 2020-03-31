@@ -1,0 +1,551 @@
+components:
+  schemas:
+    ErrorResponse:
+      description: JSON response containing details of the error message
+      properties:
+        message:
+          type: string
+        messageArgs:
+          description: List of arguments to be substituted in the error message.
+          items:
+            type: string
+          type: array
+        messageID:
+          description: Contains the message id for the reported HTTP error code.
+          type: string
+        recommendedActions:
+          description: List of recommended actions for the error occured.
+          items:
+            type: string
+          type: array
+      title: ErrorResponse
+      type: object
+    Get_Schedule_Task_Run_History_Response:
+      properties:
+        taskHistory:
+          description: Collection of task history objects
+          items:
+            $ref: '#/components/schemas/TaskHistory_Object_Model'
+          type: array
+      title: Get Schedule Task Run History Response
+      type: object
+    Modify_Schedules:
+      properties:
+        scheduleInfo:
+          description: Object of type scheduleInfo
+          type: object
+        startSchedule:
+          description: Enables the scheduled task
+          type: boolean
+        stopSchedule:
+          description: Disables the scheduled task
+          type: boolean
+      title: Modify Schedules
+      type: object
+    Read_Schedule_Object_Response:
+      properties:
+        Created:
+          description: Current date and time
+          type: string
+        Description:
+          description: A brief description of the entity
+          type: string
+        Enabled:
+          description: Identifies if the schedule is enabled or disabled
+          type: boolean
+        Id:
+          description: Unique id of resource
+          type: string
+        Modified:
+          description: Current date and time
+          type: string
+        Status:
+          description: 'Status of the schedule '
+          type: string
+        Type:
+          description: Identifies the type or class of the Entity.
+          type: string
+        Uri:
+          description: 'URI of the entity '
+          type: string
+        lastRunResult:
+          description: 'The result from the last run of the schedule. '
+          type: string
+        lastRunTime:
+          description: 'The date time the schedule was last run. '
+          type: string
+        name:
+          description: Name of the entity
+          type: string
+        nextRunTime:
+          description: The date time the schedule was last run
+          type: string
+        scheduleTrigger:
+          $ref: '#/components/schemas/scheduleTrigger_Object_Model'
+      title: Read Schedule Object Response
+      type: object
+    Read_Schedules_Collection_Response:
+      properties:
+        Count:
+          description: Number of objects returned in the response
+          type: number
+        Description:
+          description: Description string for the collection
+          type: string
+        Members:
+          description: List of entities in the collection
+          items:
+            type: object
+          type: array
+        Name:
+          description: Name of the collection
+          type: string
+        Total:
+          description: Number of objects in the collection
+          type: number
+        Type:
+          description: Type of the collection, schedules
+          type: string
+        Uri:
+          description: URI for the collection
+          type: string
+      title: Read Schedules Collection Response
+      type: object
+    TaskHistory_Object_Model:
+      properties:
+        taskRunTime:
+          description: Timestamp of the task run
+          type: string
+        taskStatus:
+          description: Status of the task run
+          type: string
+      title: TaskHistory Object Model
+      type: object
+    recurrence_Object_Model:
+      properties:
+        endDate:
+          description: End date of the repetition
+          type: string
+        repeatDuration:
+          description: Specifies till how much time, the repetition will keep happening
+          type: string
+        repeatInterval:
+          description: Value is spedified in minutes. Indicates after how many minutes,
+            the schedule task will repeat
+          type: string
+        repeatTimeDuration:
+          description: 'Specifies a fixed time upto which the repetition will happen
+
+            if repeatDuration is also mentioned then this option will be ignored. '
+          type: string
+        stopTaskIfRunning:
+          description: 'Specifies whether to stop the task, if it is still running
+            at the next recurrence. '
+          type: boolean
+      title: recurrence Object Model
+      type: object
+    scheduleTrigger_Object_Model:
+      properties:
+        dailySchedule:
+          description: 'The schedule is run after every mentioned number of days
+
+            This option is only considered if scheduleType is DAILY.
+
+            '
+          type: number
+        dayOfMonth:
+          description: 'The schedule is run on the specified day of each month.
+
+            This option is only considered if scheduleType is MONTHLY. Otherwise it
+            is ignored.'
+          type: number
+        daysOfWeek:
+          description: 'The days of the week on which scheduled task will run.
+
+            MON, TUE, WED, THU, FRI, SAT, SUN
+
+            This option is only considered if taskSchedule is WEEKLY.'
+          items:
+            type: string
+          type: array
+        endDate:
+          description: Specifies on which date to end the scheduled task.
+          type: string
+        endTime:
+          description: The end time of the schedule.
+          type: string
+        months:
+          description: 'The months in which the scheduled task will run.
+
+            JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC
+
+            This option is only considered if taskSchedule is MONTHLY.'
+          items:
+            type: string
+          type: array
+        scheduleType:
+          description: "Values are \u2013 \nONCE, HOURLY, DAILY, WEEKLY, MONTHLY\n\
+            Changed as per mockup"
+          type: string
+        startDate:
+          description: 'Specifies on which date to start the scheduled task.
+
+            Mandatory parameter for all schedule types as per mockup.'
+          type: string
+        startTime:
+          description: The start time of the schedule.
+          type: string
+        weeklySchedule:
+          description: 'The schedule is run after every mentioned number of weeks
+
+            This option is only considered if scheduleType is WEEKLY.'
+          type: number
+      title: scheduleTrigger Object Model
+      type: object
+info:
+  description: ''
+  title: ROHIT specifications
+  version: 1.0.0
+openapi: 3.0.1
+paths:
+  /schedules:
+    get:
+      description: ''
+      parameters:
+      - description: Name of the collection
+        in: query
+        name: Name
+        schema:
+          type: string
+      - description: Type of the collection, schedules
+        in: query
+        name: Type
+        schema:
+          type: string
+      - description: URI for the collection
+        in: query
+        name: Uri
+        schema:
+          type: string
+      - description: Description string for the collection
+        in: query
+        name: Description
+        schema:
+          type: string
+      - description: Number of objects in the collection
+        in: query
+        name: Total
+        schema:
+          type: number
+      - description: Number of objects returned in the response
+        in: query
+        name: Count
+        schema:
+          type: number
+      - description: List of entities in the collection
+        in: query
+        name: Members
+        schema:
+          items:
+            type: object
+          type: array
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Read_Schedules_Collection_Response'
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User does not possess authorization to perform this request.  '
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Read Schedules Collection
+      tags:
+      - Schedules
+  /schedules/<id>:
+    delete:
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: Scheduled task  is deleted successfully
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User do not possess authorization to perform this request.  '
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: "The request specified a URI of a resource that does not exist.\
+            \ \n"
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Delete Schedules Object
+      tags:
+      - Schedules
+    get:
+      description: ''
+      parameters:
+      - description: Name of the entity
+        in: query
+        name: name
+        schema:
+          type: string
+      - description: Unique id of resource
+        in: query
+        name: Id
+        schema:
+          type: string
+      - description: 'URI of the entity '
+        in: query
+        name: Uri
+        schema:
+          type: string
+      - description: Identifies the type or class of the Entity.
+        in: query
+        name: Type
+        schema:
+          type: string
+      - description: A brief description of the entity
+        in: query
+        name: Description
+        schema:
+          type: string
+      - description: Current date and time
+        in: query
+        name: Created
+        schema:
+          type: string
+      - description: Current date and time
+        in: query
+        name: Modified
+        schema:
+          type: string
+      - description: 'Status of the schedule '
+        in: query
+        name: Status
+        schema:
+          type: string
+      - description: Identifies if the schedule is enabled or disabled
+        in: query
+        name: Enabled
+        schema:
+          type: boolean
+      - description: 'The date time the schedule was last run. '
+        in: query
+        name: lastRunTime
+        schema:
+          type: string
+      - description: The date time the schedule was last run
+        in: query
+        name: nextRunTime
+        schema:
+          type: string
+      - description: 'The result from the last run of the schedule. '
+        in: query
+        name: lastRunResult
+        schema:
+          type: string
+      - description: The  object
+        in: query
+        name: scheduleTrigger
+        schema:
+          type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Read_Schedule_Object_Response'
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User does not possess authorization to perform this request.  '
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Read Schedule Object
+      tags:
+      - Schedules
+    put:
+      description: ''
+      parameters:
+      - description: Disables the scheduled task
+        in: query
+        name: stopSchedule
+        required: false
+        schema:
+          type: boolean
+      - description: Enables the scheduled task
+        in: query
+        name: startSchedule
+        required: false
+        schema:
+          type: boolean
+      - description: Object of type scheduleInfo
+        in: query
+        name: scheduleInfo
+        required: false
+        schema:
+          type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Modify_Schedules'
+      responses:
+        '202':
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Badly formed/missing information in the request body.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid user credentials
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User does not possess authorization to perform this request.  '
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Modify Schedules
+      tags:
+      - Schedules
+  /schedules/<id>/taskHistory?start=<number>&end=<number>:
+    get:
+      description: ''
+      parameters:
+      - description: Collection of task history objects
+        in: query
+        name: taskHistory
+        schema:
+          items:
+            type: object
+          type: array
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get_Schedule_Task_Run_History_Response'
+          description: Scheduled task run history is retrieved successfully
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User do not possess authorization to perform this request.  '
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: "The request specified a URI of a resource that does not exist.\
+            \ \n"
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Get Schedule Task Run History
+      tags:
+      - Schedules
+  "/schedules?query=\u201DvolumeId={vol-id}\u201D":
+    get:
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User does not possess authorization to perform this request.  '
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Get all shadow copy schedules for a volume
+      tags:
+      - Schedules
+servers:
+- description: Base URL
+  url: https://{server}:{port}/rest/v1/
+  variables:
+    port:
+      default: '8443'
+    server:
+      default: 0.0.0.0
+      description: ROHIT IP
+tags:
+- name: Schedules

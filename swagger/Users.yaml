@@ -1,0 +1,439 @@
+components:
+  schemas:
+    Create_Users:
+      properties:
+        User:
+          description: 'A valid user name. The user should have a valid local or domain
+            account. For domain accounts use user@domain format.  '
+          type: string
+        userRole:
+          description: 'Enum can take the value of,
+
+            ADMINISTRATOR,
+
+            OPERATOR,
+
+            READ_ONLY'
+          type: string
+      title: Create Users
+      type: object
+    ErrorResponse:
+      description: JSON response containing details of the error message
+      properties:
+        message:
+          type: string
+        messageArgs:
+          description: List of arguments to be substituted in the error message.
+          items:
+            type: string
+          type: array
+        messageID:
+          description: Contains the message id for the reported HTTP error code.
+          type: string
+        recommendedActions:
+          description: List of recommended actions for the error occured.
+          items:
+            type: string
+          type: array
+      title: ErrorResponse
+      type: object
+    Modify_Users:
+      properties:
+        userRole:
+          description: Enum can take the value Super, Edit or View
+          type: string
+      title: Modify Users
+      type: object
+    Read_Users_Collection_Response:
+      properties:
+        Count:
+          description: Total number of users returned in this request
+          type: number
+        Description:
+          description: A brief description string
+          type: string
+        Members:
+          description: Array of users object
+          items:
+            type: object
+          type: array
+        Name:
+          description: Users Collection
+          type: string
+        Total:
+          description: Total number of users
+          type: number
+        Type:
+          description: users
+          type: string
+        Uri:
+          description: rest/v1/users
+          type: string
+      title: Read Users Collection Response
+      type: object
+    Read_Users_Object:
+      properties:
+        Action:
+          description: "\u201CgetUserDetails\u201D"
+          type: string
+        Username:
+          description: Username
+          type: string
+      title: Read Users Object
+      type: object
+    Read_Users_Object_Response:
+      properties:
+        Created:
+          description: Current datetime
+          type: string
+        Description:
+          description: A brief description of the entity
+          type: string
+        Id:
+          description: Unique id of resource(this can be authorization token)
+          type: string
+        Modified:
+          description: Current datetime
+          type: string
+        Name:
+          description: Name of the entity
+          type: string
+        Type:
+          description: Identifies the type or class of the Entity.
+          type: string
+        Uri:
+          description: 'URI of the entity '
+          type: string
+        User:
+          description: User name
+          type: string
+        userRole:
+          description: 'The roles the user belongs to. Enum can take the value of,
+
+            ADMINISTRATOR,
+
+            OPERATOR,
+
+            READ_ONLY'
+          type: string
+      title: Read Users Object Response
+      type: object
+info:
+  description: "Allows creating, deleting and modifying user privileges on the REST\
+    \ service. By default local admin users have Super privileges. \n"
+  title: ROHIT Users REST API specifications
+  version: 1.0.0
+openapi: 3.0.1
+paths:
+  /users:
+    get:
+      description: ''
+      parameters:
+      - description: Users Collection
+        in: query
+        name: Name
+        schema:
+          type: string
+      - description: users
+        in: query
+        name: Type
+        schema:
+          type: string
+      - description: rest/v1/users
+        in: query
+        name: Uri
+        schema:
+          type: string
+      - description: A brief description string
+        in: query
+        name: Description
+        schema:
+          type: string
+      - description: Total number of users
+        in: query
+        name: Total
+        schema:
+          type: number
+      - description: Total number of users returned in this request
+        in: query
+        name: Count
+        schema:
+          type: number
+      - description: Array of users object
+        in: query
+        name: Members
+        schema:
+          items:
+            type: object
+          type: array
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Read_Users_Collection_Response'
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User does not possess authorization to perform this request.  '
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Read Users Collection
+      tags:
+      - Users
+    post:
+      description: ''
+      parameters:
+      - description: 'A valid user name. The user should have a valid local or domain
+          account. For domain accounts use user@domain format.  '
+        in: query
+        name: User
+        required: true
+        schema:
+          type: string
+      - description: 'Enum can take the value of,
+
+          ADMINISTRATOR,
+
+          OPERATOR,
+
+          READ_ONLY'
+        in: query
+        name: userRole
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Create_Users'
+      responses:
+        '200':
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User does not possess authorization to perform this request.  '
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Create Users
+      tags:
+      - Users
+  /users/:
+    post:
+      description: ''
+      parameters:
+      - description: Name of the entity
+        in: query
+        name: Name
+        schema:
+          type: string
+      - description: Unique id of resource(this can be authorization token)
+        in: query
+        name: Id
+        schema:
+          type: string
+      - description: 'URI of the entity '
+        in: query
+        name: Uri
+        schema:
+          type: string
+      - description: Identifies the type or class of the Entity.
+        in: query
+        name: Type
+        schema:
+          type: string
+      - description: A brief description of the entity
+        in: query
+        name: Description
+        schema:
+          type: string
+      - description: Current datetime
+        in: query
+        name: Created
+        schema:
+          type: string
+      - description: Current datetime
+        in: query
+        name: Modified
+        schema:
+          type: string
+      - description: User name
+        in: query
+        name: User
+        schema:
+          type: string
+      - description: 'The roles the user belongs to. Enum can take the value of,
+
+          ADMINISTRATOR,
+
+          OPERATOR,
+
+          READ_ONLY'
+        in: query
+        name: userRole
+        schema:
+          type: string
+      - description: "\u201CgetUserDetails\u201D"
+        in: query
+        name: Action
+        required: true
+        schema:
+          type: string
+      - description: Username
+        in: query
+        name: Username
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Read_Users_Object'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Read_Users_Object_Response'
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User does not possess authorization to perform this request.  '
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Read Users Object
+      tags:
+      - Users
+  /users/<user-id>/:
+    put:
+      description: ''
+      parameters:
+      - description: Enum can take the value Super, Edit or View
+        in: query
+        name: userRole
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Modify_Users'
+      responses:
+        '200':
+          description: Session object successfully deleted.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User do not possess authorization to perform this request.  '
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: "The request specified a URI of a resource that does not exist.\
+            \ \n"
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Modify Users
+      tags:
+      - Users
+  /users/user-id:
+    delete:
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: Success.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid authorization token
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 'User do not possess authorization to perform this request.  '
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: "The request specified a URI of a resource that does not exist.\
+            \ \n"
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected internal error
+      summary: Delete Users
+      tags:
+      - Users
+servers:
+- description: Base URL
+  url: https://{server}:{port}/rest/v1/
+  variables:
+    port:
+      default: '8443'
+    server:
+      default: 0.0.0.0
+      description: ROHIT server IP
+tags:
+- name: Users
